@@ -4,14 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.contains;
-import static org.mockito.Mockito.times;
 
 
 public class ApplicationTest {
@@ -20,47 +17,50 @@ public class ApplicationTest {
     Application application;
     InputStream inputStream;
     BufferedReader bufferedReader;
+    UserInput userInput;
+    Processor processor;
+    Menu menu;
 
     @Before
     public void initialize() {
+        menu = mock(Menu.class);;
         printStream = mock(PrintStream.class);
-        library = mock(Library.class);
-        inputStream = mock(InputStream.class);
-        bufferedReader = mock(BufferedReader.class);
-        application = new Application(printStream, library, bufferedReader);
+        userInput = mock(UserInput.class);
+        processor = mock(Processor.class);
+        application = new Application(printStream, userInput, processor, menu);
     }
 
     @Test
-    public void shouldPrintWelcomeMessageWhenApplicationStarts() throws IOException {
-        when(bufferedReader.readLine()).thenReturn("2");
-        try {
-            application.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void shouldPrintWelcomeMessageWhenApplicationStarts() {
+        application.start();
+
         verify(printStream).println("Welcome to Library!\n");
     }
 
     @Test
-    public void shouldPrintLibraryWhenUserSelectsListBooks() throws IOException {
-        when(bufferedReader.readLine()).thenReturn("1");
+    public void shouldPrintMenuWhenApplicationStarts() {
         application.start();
-        //when(bufferedReader.readLine()).thenReturn("2");
-        verify(library).printLibrary();
 
+        verify(printStream).println(contains("**********************\n" +
+                "MAIN MENU\n" +
+                "1 -- List Books\n" +
+                "2 -- Quit\n" +
+                "**********************\n" +
+                "Input option number for selection:"));
     }
 
     @Test
-    public void shouldPrintErrorMessageWhenUserEntersInvalidOption() throws IOException {
-        when(bufferedReader.readLine()).thenReturn("3");
+    public void shouldFooWhenStarting() {
         application.start();
-        verify(printStream).println(contains("Select a valid option!"));
+
+        verify(menu).chooseOptions();
     }
 
-    @Test
-    public void shouldQuitApplicationWhenUserSelectsQuitOption() throws IOException {
-        when(bufferedReader.readLine()).thenReturn("2");
-        application.start();
-        verify(printStream).println(contains("Quiting..."));
-    }
+
+
+
+
+
+
+
 }

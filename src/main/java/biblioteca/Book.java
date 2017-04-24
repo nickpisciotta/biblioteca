@@ -4,9 +4,9 @@ package biblioteca;
 import java.io.PrintStream;
 
 public class Book {
-    public String title;
-    public String author;
-    public String yearPublished;
+    private String title;
+    private String author;
+    private String yearPublished;
     private PrintStream printStream;
 
     public Book(String title, String author, String yearPublished, PrintStream printStream) {
