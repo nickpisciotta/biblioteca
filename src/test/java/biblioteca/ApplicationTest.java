@@ -17,17 +17,15 @@ public class ApplicationTest {
     Application application;
     InputStream inputStream;
     BufferedReader bufferedReader;
-    UserInput userInput;
-    Processor processor;
     Menu menu;
+    private QuitCommand quitCommand;
 
     @Before
     public void initialize() {
         menu = mock(Menu.class);;
         printStream = mock(PrintStream.class);
-        userInput = mock(UserInput.class);
-        processor = mock(Processor.class);
-        application = new Application(printStream, userInput, processor, menu);
+        quitCommand = mock(QuitCommand.class);
+        application = new Application(printStream, menu, quitCommand);
     }
 
     @Test
@@ -38,29 +36,10 @@ public class ApplicationTest {
     }
 
     @Test
-    public void shouldPrintMenuWhenApplicationStarts() {
-        application.start();
-
-        verify(printStream).println(contains("**********************\n" +
-                "MAIN MENU\n" +
-                "1 -- List Books\n" +
-                "2 -- Quit\n" +
-                "**********************\n" +
-                "Input option number for selection:"));
-    }
-
-    @Test
     public void shouldFooWhenStarting() {
         application.start();
 
         verify(menu).chooseOptions();
     }
-
-
-
-
-
-
-
 
 }

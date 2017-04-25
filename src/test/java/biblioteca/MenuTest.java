@@ -6,6 +6,8 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.mock;
@@ -18,13 +20,22 @@ public class MenuTest {
     private PrintStream stream;
     private BufferedReader bufferedReader;
     private Library library;
+    private Map <String, Command> menuOptions;
+    private QuitCommand quitCommand;
+    private PrintLibraryCommand printLibraryCommand;
+
 
     @Before
     public void setUp() {
         stream = mock(PrintStream.class);
         bufferedReader = mock(BufferedReader.class);
         library = mock(Library.class);
-        menu = new Menu(stream, bufferedReader, library);
+        printLibraryCommand = mock(PrintLibraryCommand.class);
+        quitCommand = mock(QuitCommand.class);
+        menuOptions = new HashMap<>();
+        menuOptions.put("1", printLibraryCommand);
+        menuOptions.put("2", quitCommand);
+        menu = new Menu(stream, bufferedReader, menuOptions);
     }
 
     @Test
@@ -45,7 +56,8 @@ public class MenuTest {
 
         menu.chooseOptions();
 
-        verify(library).printLibrary();
+       verify(printLibraryCommand).execute();
+
     }
 
     @Test
@@ -63,8 +75,7 @@ public class MenuTest {
 
         menu.chooseOptions();
 
-        verify(stream).println(contains("Quiting..."));
+        verify(quitCommand).execute();
     }
-
 
 }

@@ -1,7 +1,7 @@
 package biblioteca;
 
 
-public interface Continuer {
+public interface Runner {
 
     boolean shouldContinue();
 

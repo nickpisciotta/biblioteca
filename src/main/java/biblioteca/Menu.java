@@ -4,35 +4,28 @@ package biblioteca;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Menu {
 
     private final PrintStream stream;
     private final BufferedReader bufferedReader;
-    private Library library;
+    private final Map<String, Command> menuOptions;
 
-    public Menu(PrintStream stream, BufferedReader bufferedReader, Library library) {
+    public Menu(PrintStream stream, BufferedReader bufferedReader, Map<String, Command> menuOptions) {
         this.stream = stream;
         this.bufferedReader = bufferedReader;
-        this.library = library;
+        this.menuOptions = menuOptions;
     }
 
     public void chooseOptions() {
         printMenu();
         String userInput = readLine();
-
-        Map<String, Command> menuOptions = new HashMap<>();
-        menuOptions.put("1", new PrintLibraryCommand(library));
-        menuOptions.get(userInput).execute();
-
-
-//       else if (userInput.equals("2")) {
-//            stream.println("Quiting...");
-//        } else {
-//            stream.println("Select a valid option!");
-//        }
+        if (menuOptions.containsKey(userInput)) {
+            menuOptions.get(userInput).execute();
+        } else {
+            stream.println("Select a valid option!");
+        }
     }
 
     private String readLine() {
@@ -45,11 +38,10 @@ public class Menu {
         return userInput;
     }
 
-
     private void printMenu() {
         String menu = "**********************";
         menu += "\nMAIN MENU\n";
-        menu += "1 -- List Books\n2 -- Quit";
+        menu += "0 -- Checkout Book\n1 -- List Books\n2 -- Quit";
         menu += "\n**********************\n";
         menu += "Input option number for selection:";
         stream.println(menu);

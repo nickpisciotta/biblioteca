@@ -16,7 +16,23 @@ public class Library {
         }
     }
 
-    public void checkOut(Book book) {
-        books.remove(book);
+    public void checkOut(String bookTitle) {
+        Book removedBook = find(bookTitle);
+        if (removedBook) {
+            books.remove(removedBook);
+            stream.println("Thank you! Enjoy the book");
+        } else {
+            stream.println("That book is not available."); rgetharhs5yj5jtyjd
+        }
+    }
+
+    private Book find(String bookTitle) {
+        Book bookToRemove = null;
+        for (Book book : books ) {
+            if (book.hasTitle(bookTitle)) {
+             bookToRemove = book;
+            }
+        }
+        return bookToRemove;
     }
 }
