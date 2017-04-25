@@ -8,12 +8,12 @@ import java.util.Map;
 
 public class Menu {
 
-    private final PrintStream stream;
+    private final PrintStream printStream;
     private final BufferedReader bufferedReader;
     private final Map<String, Command> menuOptions;
 
-    public Menu(PrintStream stream, BufferedReader bufferedReader, Map<String, Command> menuOptions) {
-        this.stream = stream;
+    public Menu(PrintStream printStream, BufferedReader bufferedReader, Map<String, Command> menuOptions) {
+        this.printStream = printStream;
         this.bufferedReader = bufferedReader;
         this.menuOptions = menuOptions;
     }
@@ -24,7 +24,7 @@ public class Menu {
         if (menuOptions.containsKey(userInput)) {
             menuOptions.get(userInput).execute();
         } else {
-            stream.println("Select a valid option!");
+            printStream.println("Select a valid option!");
         }
     }
 
@@ -39,11 +39,9 @@ public class Menu {
     }
 
     private void printMenu() {
-        String menu = "**********************";
-        menu += "\nMAIN MENU\n";
-        menu += "0 -- Checkout Book\n1 -- List Books\n2 -- Quit";
-        menu += "\n**********************\n";
-        menu += "Input option number for selection:";
-        stream.println(menu);
+        printStream.println("Input Option Number For Selection");
+        for (Command command : menuOptions.values()) {
+            command.list();
+        }
     }
 }

@@ -19,15 +19,15 @@ public class Main {
         books.add(book1);
         books.add(book2);
 
-        Library library = new Library(books);
-        PrintStream stream = new PrintStream(System.out);
+        PrintStream printStream = new PrintStream(System.out);
+        Library library = new Library(books, printStream);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         Map<String, Command> menuOptions = new HashMap<>();
-        menuOptions.put("1", new PrintLibraryCommand(library));
-        QuitCommand quitCommand = new QuitCommand(stream);
-        CheckoutBookCommand checkoutBookCommand = new CheckoutBookCommand(library, bufferedReader,stream);
+        menuOptions.put("0", new PrintLibraryCommand("0", "List Books", library, printStream));
+        QuitCommand quitCommand = new QuitCommand("2","Quit", printStream);
+        CheckoutBookCommand checkoutBookCommand = new CheckoutBookCommand("1", "Checkout Book", library, bufferedReader,printStream);
         menuOptions.put("2", quitCommand);
-        menuOptions.put("0", checkoutBookCommand);
+        menuOptions.put("1", checkoutBookCommand);
         Menu menu = new Menu(System.out, bufferedReader, menuOptions);
         Application application = new Application(System.out, menu, quitCommand);
 

@@ -28,7 +28,7 @@ public class LibraryTest {
         book2 = new Book("Book2", "Author2", "1999", printStream);
         books.add(book1);
         books.add(book2);
-        library = new Library(books);
+        library = new Library(books, printStream);
     }
 
 
@@ -46,6 +46,22 @@ public class LibraryTest {
 
         assertThat(books, not(hasItem(book1)));
     }
+
+    @Test
+     public void shouldPrintSuccessfulCheckoutMessageToUserAfterBookIsCheckedOut(){
+        library.checkOut("Book1");
+
+        verify(printStream).println("Thank you! Enjoy the book");
+    }
+
+    @Test
+    public void shouldPrintUnsuccessfulCheckoutMessageToUserIfBookIsUnavailable() {
+        library.checkOut("Book3");
+
+        verify(printStream).println("That book is not available.");
+    }
+
+
 
 
 }

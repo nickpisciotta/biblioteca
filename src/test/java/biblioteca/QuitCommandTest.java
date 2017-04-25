@@ -3,7 +3,6 @@ package biblioteca;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.annotation.processing.Processor;
 import java.io.PrintStream;
 
 import static junit.framework.TestCase.assertFalse;
@@ -12,20 +11,20 @@ import static org.mockito.Mockito.verify;
 
 public class QuitCommandTest {
 
-    private PrintStream stream;
+    private PrintStream printStream;
     private QuitCommand quitCommand;
 
     @Before
     public void setUp() {
-        stream = mock(PrintStream.class);
-        quitCommand = new QuitCommand(stream);
+        printStream = mock(PrintStream.class);
+        quitCommand = new QuitCommand("2", "Quit", printStream);
     }
 
    @Test
     public void shouldPrintQuittingWhenApplicationWhenCommandedToQuit() {
        quitCommand.execute();
 
-       verify(stream).println("Quitting");
+       verify(printStream).println("Quitting");
    }
 
    @Test
@@ -33,5 +32,12 @@ public class QuitCommandTest {
        quitCommand.execute();
 
        assertFalse(quitCommand.shouldContinue());
+   }
+
+   @Test
+    public void shouldPrintCommandDetailsInMenuWhenExecuted() {
+        quitCommand.list();
+
+        verify(printStream).println("2 -- Quit");
    }
 }

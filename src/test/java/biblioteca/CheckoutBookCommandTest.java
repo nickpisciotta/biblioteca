@@ -1,6 +1,5 @@
 package biblioteca;
 
-import com.sun.tools.javac.comp.Check;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -21,14 +19,14 @@ public class CheckoutBookCommandTest {
     private CheckoutBookCommand checkOutBookCommand;
     private BufferedReader bufferedReader;
     private Book book;
-    private PrintStream stream;
+    private PrintStream printStream;
 
     @Before
     public void setup() {
         library = mock(Library.class);
-        stream = mock(PrintStream.class);
+        printStream = mock(PrintStream.class);
         bufferedReader = mock(BufferedReader.class);
-        checkOutBookCommand = new CheckoutBookCommand(library, bufferedReader, stream);
+        checkOutBookCommand = new CheckoutBookCommand("1", "Checkout Book", library, bufferedReader, printStream);
     }
 
 
@@ -36,7 +34,7 @@ public class CheckoutBookCommandTest {
     public void shouldPromptUserToInputBookTitle() {
         checkOutBookCommand.execute();
 
-        verify(stream).println("Enter book title");
+        verify(printStream).println("Enter book title");
     }
 
     @Test
@@ -48,4 +46,10 @@ public class CheckoutBookCommandTest {
         verify(library).checkOut("foo");
     }
 
+    @Test
+    public void shouldPrintCommandDetailsInMenuWhenExecuted() {
+        checkOutBookCommand.list();
+
+        verify(printStream).println("1 -- Checkout Book");
+    }
 }

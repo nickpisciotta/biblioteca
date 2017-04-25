@@ -17,7 +17,7 @@ public class Book {
     }
 
     public void printBookDetails() {
-        printStream.println(title + " -- " + author + " -- " + yearPublished);
+        printStream.println(title + " -- " + author + " -- " + yearPublished + "\n");
     }
 
     public boolean hasTitle(String bookTitle) {

@@ -9,19 +9,23 @@ import java.io.PrintStream;
  */
 public class CheckoutBookCommand implements Command {
 
+    private final String name;
     private Library library;
     private BufferedReader bufferedReader;
-    private PrintStream stream;
+    private PrintStream printStream;
+    private String commandKey;
 
 
-    public CheckoutBookCommand(Library library, BufferedReader bufferedReader, PrintStream stream) {
+    public CheckoutBookCommand(String commandKey, String name, Library library, BufferedReader bufferedReader, PrintStream printStream) {
+        this.commandKey = commandKey;
+        this.name = name;
         this.library = library;
         this.bufferedReader = bufferedReader;
-        this.stream = stream;
+        this.printStream = printStream;
     }
 
     public void execute() {
-        stream.println("Enter book title");
+        printStream.println("Enter book title");
         String bookTitle = ""; 
         try {
             bookTitle = bufferedReader.readLine();    
@@ -29,5 +33,10 @@ public class CheckoutBookCommand implements Command {
             e.getStackTrace();
         }
         library.checkOut(bookTitle);
+    }
+
+    @Override
+    public void list() {
+        printStream.println(commandKey + " -- " + name);
     }
 }

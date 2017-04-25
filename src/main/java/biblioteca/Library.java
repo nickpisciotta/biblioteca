@@ -1,12 +1,15 @@
 package biblioteca;
 
+import java.io.PrintStream;
 import java.util.List;
 
 public class Library {
+    private final PrintStream printStream;
     private List<Book> books;
 
-    public Library(List<Book> books) {
+    public Library(List<Book> books, PrintStream printStream) {
         this.books = books;
+        this.printStream = printStream;
     }
 
     public void printLibrary() {
@@ -18,11 +21,11 @@ public class Library {
 
     public void checkOut(String bookTitle) {
         Book removedBook = find(bookTitle);
-        if (removedBook) {
+        if (removedBook != null) {
             books.remove(removedBook);
-            stream.println("Thank you! Enjoy the book");
+            printStream.println("Thank you! Enjoy the book");
         } else {
-            stream.println("That book is not available."); rgetharhs5yj5jtyjd
+            printStream.println("That book is not available.");
         }
     }
 

@@ -17,37 +17,27 @@ import static org.mockito.Mockito.when;
 
 public class MenuTest {
     private Menu menu;
-    private PrintStream stream;
+    private PrintStream printStream;
     private BufferedReader bufferedReader;
-    private Library library;
     private Map <String, Command> menuOptions;
-    private QuitCommand quitCommand;
-    private PrintLibraryCommand printLibraryCommand;
+    private Command command1;
 
 
     @Before
     public void setUp() {
-        stream = mock(PrintStream.class);
+        printStream = mock(PrintStream.class);
         bufferedReader = mock(BufferedReader.class);
-        library = mock(Library.class);
-        printLibraryCommand = mock(PrintLibraryCommand.class);
-        quitCommand = mock(QuitCommand.class);
+        command1 = mock(Command.class);
         menuOptions = new HashMap<>();
-        menuOptions.put("1", printLibraryCommand);
-        menuOptions.put("2", quitCommand);
-        menu = new Menu(stream, bufferedReader, menuOptions);
+        menuOptions.put("1", command1);
+        menu = new Menu(printStream, bufferedReader, menuOptions);
     }
 
     @Test
     public void shouldPrintMenuWhenChooseOptions() {
         menu.chooseOptions();
 
-        verify(stream).println(contains("**********************\n" +
-                                                "MAIN MENU\n" +
-                                                "1 -- List Books\n" +
-                                                "2 -- Quit\n" +
-                                                "**********************\n" +
-                                                "Input option number for selection:"));
+        verify(command1).list();
     }
 
     @Test
@@ -56,7 +46,7 @@ public class MenuTest {
 
         menu.chooseOptions();
 
-       verify(printLibraryCommand).execute();
+       verify(command1).execute();
 
     }
 
@@ -66,16 +56,6 @@ public class MenuTest {
 
         menu.chooseOptions();
 
-        verify(stream).println(contains("Select a valid option!"));
+        verify(printStream).println(contains("Select a valid option!"));
     }
-
-    @Test
-    public void shouldQuitWhenOptionTwoIsSelected() throws IOException {
-        when(bufferedReader.readLine()).thenReturn("2");
-
-        menu.chooseOptions();
-
-        verify(quitCommand).execute();
-    }
-
 }
